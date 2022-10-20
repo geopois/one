@@ -1,26 +1,19 @@
 import * as React from "react";
-import mapboxgl from "mapbox-gl";
+import mapboxgl from "mapbox-gl"; // eslint-disable-line import/no-webpack-loader-syntax
+import MapboxGeocoder from "@mapbox/mapbox-gl-geocoder";
 
-// import the mapbox-gl styles so that the map is displayed correctly
 import "mapbox-gl/dist/mapbox-gl.css"; 
+import '@mapbox/mapbox-gl-geocoder/dist/mapbox-gl-geocoder.css';
+
 
 function MapboxMap() {
-  // this is where the map instance will be stored after initialization
   const [map, setMap] = React.useState<mapboxgl.Map>();
-
-    // React ref to store a reference to the DOM node that will be used
-    // as a required parameter `container` when initializing the mapbox-gl
-    // will contain `null` by default
-    const mapNode = React.useRef(null);
+  const mapNode = React.useRef(null);
 
   React.useEffect(() => {
     const node = mapNode.current;
-    // if the window object is not found, that means
-    // the component is rendered on the server
-    // or the dom node is not initialized, then return early
     if (typeof window === "undefined" || node === null) return;
 
-    // otherwise, create a map instance
     const mapboxMap = new mapboxgl.Map({
       container: node,
             accessToken: process.env.NEXT_PUBLIC_MAPBOX_TOKEN,
@@ -30,14 +23,23 @@ function MapboxMap() {
       minZoom: 16,
     });
 
-    // save the map object to React.useState
-    setMap(mapboxMap);
+    mapboxMap.addControl(
+      new MapboxGeocoder({
+        accessToken: process.env.NEXT_PUBLIC_MAPBOX_TOKEN as string,
+        flyTo: {
+          speed: 100 // Make the flying slow.
+        },
+        zoom: 18,
+        mapboxgl: mapboxgl
+      }), 'top-left',
+    );
 
-        return () => {
+    setMap(mapboxMap);
+    
+    return () => {
       mapboxMap.remove();
     };
   }, []);
-
     return <div ref={mapNode} style={{ width: "100%", height: "100%" }} />;
 }
 
