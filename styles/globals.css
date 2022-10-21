@@ -10,3 +10,11 @@ body,
 * {
   box-sizing: border-box;
 }
+
+.mapboxgl-ctrl-bottom-left {
+  display: none;
+}
+
+.mapboxgl-ctrl-bottom-right {
+  display: none;
+}
