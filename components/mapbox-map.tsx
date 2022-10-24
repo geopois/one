@@ -34,8 +34,10 @@ function MapboxMap() {
           speed: 100 // Make the flying slow.
         },
         zoom: 18,
-        mapboxgl: mapboxgl
-      }), 'top-left',
+        mapboxgl: mapboxgl,
+        marker: false,
+        placeholder: 'Buscar en Madrid...',
+      },), 'top-left',
     );
 
     setMap(mapboxMap);
