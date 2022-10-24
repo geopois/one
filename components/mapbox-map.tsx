@@ -21,7 +21,7 @@ function MapboxMap() {
       style: process.env.NEXT_PUBLIC_MAPBOX_STYLE,
       center: [-3.697457215656853, 40.348295056838715],
       zoom: 17,
-      minZoom: 16,
+      minZoom: 17,
       maxBounds: [[-3.8382521729390406, 40.31206732887142],[-3.5181700059205485, 40.58359405482841]]
     });
 
